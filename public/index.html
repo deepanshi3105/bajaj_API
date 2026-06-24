@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusGraph: Advanced Tree & Cycle Engine</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glass-bg"></div>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <main class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">🧬</span>
+        <h1>NexusGraph: Advanced Tree & Cycle Engine</h1>
+      </div>
+      <p class="subtitle">Parse complex node networks, resolve multi-parent conflicts, isolate cyclic loops, and calculate path depths with absolute precision.</p>
+    </header>
+
+    <div class="grid-layout">
+      <!-- Input Panel -->
+      <section class="panel input-panel">
+        <div class="panel-header">
+          <span class="step-num">01</span>
+          <h2>Input Dataset</h2>
+        </div>
+        
+        <p class="panel-desc">Enter an array of node strings in JSON format. Format: <code>X->Y</code> (e.g., parent <code>X</code> pointing to child <code>Y</code>).</p>
+        
+        <div class="input-wrapper">
+          <textarea id="json-input" spellcheck="false" placeholder='{
+  "data": ["A->B", "A->C", "B->D"]
+}'></textarea>
+          <div id="validation-msg" class="validation-message"></div>
+        </div>
+
+        <div class="button-group">
+          <button id="submit-btn" class="btn btn-primary">
+            <span class="btn-text">Submit Request</span>
+            <span class="spinner hidden"></span>
+          </button>
+          <button id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+
+        <div class="examples-section">
+          <h3>Load Sample Datasets:</h3>
+          <div class="example-buttons">
+            <button class="example-btn" data-example="pdf">📄 PDF Example</button>
+            <button class="example-btn" data-example="trees">🌳 Multiple Trees</button>
+            <button class="example-btn" data-example="cycles">🔄 Pure Cycles</button>
+            <button class="example-btn" data-example="conflicts">⚡ Multi-parent & Dupes</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Panel -->
+      <section class="panel results-panel empty-state" id="results-panel">
+        <div class="empty-view">
+          <div class="empty-icon">📈</div>
+          <h2>Awaiting Data Submission</h2>
+          <p>Please enter your dataset and click Submit to visualize the hierarchical trees, cycles, and statistics.</p>
+        </div>
+
+        <div class="results-content hidden">
+          <div class="panel-header">
+            <span class="step-num">02</span>
+            <h2>Analysis Summary</h2>
+          </div>
+
+          <!-- Raw Response Section -->
+          <details class="raw-response-details">
+            <summary class="raw-response-summary">View Raw API JSON Response</summary>
+            <div class="raw-response-content">
+              <pre><code id="raw-json-output"></code></pre>
+            </div>
+          </details>
+
+          <!-- Cards Summary -->
+          <div class="summary-cards">
+            <div class="summary-card">
+              <span class="summary-card-icon">🌳</span>
+              <div class="summary-card-info">
+                <span class="summary-card-val" id="sum-trees">0</span>
+                <span class="summary-card-label">Valid Trees</span>
+              </div>
+            </div>
+            <div class="summary-card">
+              <span class="summary-card-icon">🔄</span>
+              <div class="summary-card-info">
+                <span class="summary-card-val" id="sum-cycles">0</span>
+                <span class="summary-card-label">Cycles</span>
+              </div>
+            </div>
+            <div class="summary-card highlight-card">
+              <span class="summary-card-icon">👑</span>
+              <div class="summary-card-info">
+                <span class="summary-card-val" id="sum-largest">N/A</span>
+                <span class="summary-card-label">Largest Tree Root</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Components Tabs / Grid -->
+          <div class="results-section">
+            <h3>Visualized Hierarchies</h3>
+            <div id="hierarchies-container" class="hierarchies-grid">
+              <!-- Dynamically populated hierarchy trees/cycles -->
+            </div>
+          </div>
+
+          <!-- Lists Section (Duplicates, Invalid) -->
+          <div class="lists-grid">
+            <div class="list-container">
+              <h3>Duplicate Edges <span class="badge" id="dupe-count">0</span></h3>
+              <div class="tag-list" id="duplicate-edges-list">
+                <!-- Duplicate badges -->
+              </div>
+            </div>
+            <div class="list-container">
+              <h3>Invalid Format Entries <span class="badge badge-error" id="invalid-count">0</span></h3>
+              <div class="tag-list" id="invalid-entries-list">
+                <!-- Invalid entry badges -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Creator Identity Footer -->
+    <footer class="app-footer">
+      <div class="user-meta-container hidden" id="user-metadata">
+        <div class="meta-item">
+          <span class="meta-label">User ID:</span>
+          <span class="meta-val" id="meta-user-id">johndoe_17091999</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Email Address:</span>
+          <span class="meta-val" id="meta-email">john.doe@college.edu</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Roll Number:</span>
+          <span class="meta-val" id="meta-roll">21CS1001</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+  
+  <script src="app.js"></script>
+</body>
+</html>
