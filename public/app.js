@@ -12,6 +12,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const sumCycles = document.getElementById('sum-cycles');
   const sumLargest = document.getElementById('sum-largest');
   
+  // Settings elements
+  const settingsToggleBtn = document.getElementById('settings-toggle-btn');
+  const settingsPanel = document.getElementById('settings-panel');
+  const apiUrlInput = document.getElementById('api-url-input');
+  const saveApiUrlBtn = document.getElementById('save-api-url-btn');
+
+  // Load saved API URL from localStorage
+  let backendApiUrl = localStorage.getItem('backend_api_url') || '';
+  apiUrlInput.value = backendApiUrl;
+
+  // Toggle Settings Panel
+  settingsToggleBtn.addEventListener('click', () => {
+    settingsPanel.classList.toggle('hidden');
+  });
+
+  // Save Settings
+  saveApiUrlBtn.addEventListener('click', () => {
+    backendApiUrl = apiUrlInput.value.trim();
+    localStorage.setItem('backend_api_url', backendApiUrl);
+    
+    // Add success visual feedback
+    saveApiUrlBtn.textContent = 'Saved!';
+    saveApiUrlBtn.style.background = 'var(--success)';
+    setTimeout(() => {
+      saveApiUrlBtn.textContent = 'Save';
+      saveApiUrlBtn.style.background = '';
+      settingsPanel.classList.add('hidden');
+    }, 1000);
+  });
+  
   // Containers
   const hierarchiesContainer = document.getElementById('hierarchies-container');
   const duplicateEdgesList = document.getElementById('duplicate-edges-list');
@@ -157,7 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
 
     try {
-      const response = await fetch('/bfhl', {
+      const apiEndpoint = backendApiUrl
+        ? `${backendApiUrl.replace(/\/$/, '')}/bfhl`
+        : '/bfhl';
+
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

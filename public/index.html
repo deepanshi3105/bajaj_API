@@ -28,9 +28,21 @@
     <div class="grid-layout">
       <!-- Input Panel -->
       <section class="panel input-panel">
-        <div class="panel-header">
-          <span class="step-num">01</span>
-          <h2>Input Dataset</h2>
+        <div class="panel-header" style="justify-content: space-between; width: 100%;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span class="step-num">01</span>
+            <h2>Input Dataset</h2>
+          </div>
+          <button id="settings-toggle-btn" class="settings-btn" title="API Settings">⚙️</button>
+        </div>
+
+        <!-- API Settings Panel (Collapsible) -->
+        <div id="settings-panel" class="settings-container hidden">
+          <label for="api-url-input">Backend API URL</label>
+          <div class="api-url-wrapper">
+            <input type="text" id="api-url-input" placeholder="Default: Local (relative path /bfhl)" />
+            <button id="save-api-url-btn" class="btn btn-secondary btn-sm">Save</button>
+          </div>
         </div>
         
         <p class="panel-desc">Enter an array of node strings in JSON format. Format: <code>X->Y</code> (e.g., parent <code>X</code> pointing to child <code>Y</code>).</p>
